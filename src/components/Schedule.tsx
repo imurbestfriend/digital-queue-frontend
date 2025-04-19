@@ -29,10 +29,10 @@ const Schedule = () => {
 					`${API_URL}/schedule?group_id=${groupId}`
 				)
 
-				// Group schedule items by day
+				
 				const scheduleByDay: ScheduleByDay = {}
 
-				// Convert response data to array if it's not already
+				
 				const scheduleItems = Array.isArray(response.data)
 					? response.data
 					: Object.values(response.data)
@@ -50,7 +50,7 @@ const Schedule = () => {
 					scheduleByDay[startDate].push(item)
 				})
 
-				// Sort each day's schedule by start time
+				
 				Object.keys(scheduleByDay).forEach(day => {
 					scheduleByDay[day].sort(
 						(a, b) =>
@@ -106,7 +106,7 @@ const Schedule = () => {
 			<h1 className={styles.title}>Расписание группы </h1>
 			<button onClick={handleBack}>Назад</button>
 			{Object.keys(schedule)
-				.sort() // Sort days chronologically
+				.sort() 
 				.map(day => (
 					<ScheduleDay key={day} date={day} scheduleItems={schedule[day]} />
 				))}

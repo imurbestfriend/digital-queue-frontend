@@ -31,14 +31,11 @@ const QueueModal = ({
 	} | null>(null)
 	const wsRef = useRef<WebSocket | null>(null)
 
-	// Check if user is authenticated and get user ID from token
+	
 	useEffect(() => {
-		const token = Cookies.get('access_token')
+		const token = Cookies.get('')
+		// const token = Cookies.get('access_token')
 		setIsAuthenticated(!!token)
-
-		// In a real app, you would decode the JWT to get the user ID
-		// For now, we'll assume we can get it from somewhere
-		// This is a placeholder - replace with actual user ID extraction
 		const userId = token ? getUserIdFromToken(token) : null
 
 		if (userId && queueStatus) {
@@ -53,10 +50,10 @@ const QueueModal = ({
 		}
 	}, [queueStatus])
 
-	// Helper function to extract user ID from token (placeholder)
+	
 	const getUserIdFromToken = (token: string): number | null => {
 		try {
-			// This is a simplified example - in a real app, you would properly decode the JWT
+			
 			const base64Url = token.split('.')[1]
 			const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
 			const jsonPayload = decodeURIComponent(
@@ -76,7 +73,6 @@ const QueueModal = ({
 		}
 	}
 
-	// Fetch queue status
 	const fetchQueueStatus = useCallback(async () => {
 		setLoading(true)
 		setError(null)
@@ -92,18 +88,16 @@ const QueueModal = ({
 		}
 	}, [queueId])
 
-	// Initial fetch
+	
 	useEffect(() => {
 		fetchQueueStatus()
 	}, [fetchQueueStatus])
 
 	useEffect(() => {
     const token = Cookies.get('access_token')
-    // выбираем протокол в зависимости от того, на каком хосте запущен FE
     const protocol = import.meta.env.VITE_WS_URL?.startsWith('wss') ? 'wss' : 'ws'
 		console.log('protocol', protocol)
     const wsUrl = `${import.meta.env.VITE_WS_URL}/api/queues/${queueId}/ws`
-    // если бекенд требует заголовок Authorization, можно передать токен в query:
     const urlWithToken = token ? `${wsUrl}?token=${token}` : wsUrl
 
     const ws = new WebSocket(urlWithToken)
@@ -121,8 +115,6 @@ const QueueModal = ({
           data?: any
         }
         console.log('WS message:', msg)
-        // 3) Обновляем статус очереди по событию
-        // В простейшем случае — просто перезапрос
         fetchQueueStatus()
       } catch (e) {
         console.error('WS parse error:', e)
@@ -137,13 +129,13 @@ const QueueModal = ({
       console.log('WebSocket disconnected')
     }
 
-    // При анмаунте закрываем
+    
     return () => {
       ws.close()
     }
   }, [queueId, fetchQueueStatus])
 
-	// Join queue handler
+	
 	const handleJoinQueue = async () => {
 		if (!isAuthenticated || actionLoading) return
 
@@ -159,10 +151,10 @@ const QueueModal = ({
 					type: 'success',
 				})
 
-				// Refresh queue status
+				
 				await fetchQueueStatus()
 
-				// Notify parent component if needed
+				
 				if (onJoinSuccess) {
 					onJoinSuccess()
 				}
@@ -182,7 +174,7 @@ const QueueModal = ({
 		}
 	}
 
-	// Leave queue handler
+	
 	const handleLeaveQueue = async () => {
 		if (!isAuthenticated || !isUserInQueue || actionLoading) return
 
@@ -198,7 +190,7 @@ const QueueModal = ({
 					type: 'success',
 				})
 
-				// Refresh queue status
+				
 				await fetchQueueStatus()
 			} else {
 				setActionMessage({
@@ -217,7 +209,7 @@ const QueueModal = ({
 	}
 
 	
-	// Close modal when clicking outside or pressing Escape
+	
 	useEffect(() => {
 		const handleEscape = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {

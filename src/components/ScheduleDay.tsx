@@ -10,7 +10,7 @@ interface ScheduleDayProps {
 }
 
 const ScheduleDay = ({ date, scheduleItems }: ScheduleDayProps) => {
-	// Format the date as "Понедельник, 21 апреля"
+	// формат даты "Понедельник 21 апреля"
 	const formattedDate = format(parseISO(date), 'EEEE, d MMMM', { locale: ru })
 
 	return (

@@ -54,8 +54,8 @@ export default function Auth() {
             
             setSuccess(true);
             
-            // После успешного входа перенаправляем на /dashboard
-            navigate("/dashboard");
+            // После успешного входа перенаправляем на /grouplist
+            navigate("/dashboard/grouplist");
         } catch (error) {
             console.error("Login Error:", error);
             
@@ -100,13 +100,13 @@ export default function Auth() {
                 }
             );
             
-            console.log("Registration Success:", response.data);
+            console.log("Успешная регистрация:", response.data);
             setSuccess(true);
             
             // После регистрации переключаем на форму входа
             setIsLoginMode(true);
         } catch (error) {
-            console.error("Registration Error:", error);
+            console.error("Ошибка регистрации:", error);
             
             if (axios.isAxiosError(error) && error.response) {
                 const statusCode = error.response.status;
@@ -173,7 +173,7 @@ export default function Auth() {
             
             {error && <div className={styles.error}>{error}</div>}
             {success && <div className={styles.success}>
-                {isLoginMode ? "Login successful!" : "Registration successful!"}
+                {isLoginMode ? "Успешный логин!" : "Успешная регистрация!"}
             </div>}
         </div>
     );

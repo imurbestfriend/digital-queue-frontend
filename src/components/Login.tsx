@@ -58,11 +58,11 @@ export default function Login({ onSubmit, isLoading }: LoginProps) {
                             sx={{
                                 width: '400px',
                                 marginBottom: '10px', 
-                                '& .MuiFilledInput-root': { // Стиль для всего поля ввода
-                                  paddingLeft: '12px', // Можно настроить внутренние отступы
+                                '& .MuiFilledInput-root': { 
+                                  paddingLeft: '12px', 
                                   paddingRight: '12px',
                                 },
-                                '& .MuiInputBase-input': { // Стиль для текста
+                                '& .MuiInputBase-input': { 
                                   width: '100%', 
                                 
                                 },
@@ -87,12 +87,12 @@ export default function Login({ onSubmit, isLoading }: LoginProps) {
                             value={password}
                             sx={{
                                 width: '400px',
-                                marginBottom: '20px', // Основная ширина всего компонента
-                                '& .MuiFilledInput-root': { // Стиль для всего поля ввода
-                                  paddingLeft: '12px', // Можно настроить внутренние отступы
+                                marginBottom: '20px', 
+                                '& .MuiFilledInput-root': { 
+                                  paddingLeft: '12px', 
                                   paddingRight: '12px',
                                 },
-                                '& .MuiInputBase-input': { // Стиль для текста
+                                '& .MuiInputBase-input': { 
                                   width: '100%', 
                                 
                                 },

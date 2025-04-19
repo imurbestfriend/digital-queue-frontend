@@ -17,16 +17,16 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 	const [showQueueModal, setShowQueueModal] = useState<boolean>(false)
 	const [joinSuccess, setJoinSuccess] = useState<boolean>(false)
 
-	// Format time as "13:30 - 15:05"
+	// формат времени "13:30 - 15:05"
 	const timeRange = `${format(
 		parseISO(schedule.StartTime),
 		'HH:mm'
 	)} - ${format(parseISO(schedule.EndTime), 'HH:mm')}`
 
-	// Check if queue is available
+	
 	const hasQueue = queue !== undefined
 
-	// Calculate time until queue opens (28 hours before class)
+	// 56 часов до начала пары
 	const queueOpenTime = hasQueue
 		? parseISO(queue.OpensAt)
 		: addHours(parseISO(schedule.StartTime), -56)
@@ -36,16 +36,15 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 	const isQueueNotYetOpen =
 		hasQueue && !queue.IsActive && isBefore(now, queueOpenTime)
 
-	// For classes without a queue yet, check if it's time to show the countdown
-	// (we'll show countdown if class is within the next 48 hours but queue hasn't opened yet)
+	
 	const shouldShowQueueCountdown =
 		!hasQueue &&
 		isBefore(now, parseISO(schedule.StartTime)) &&
 		isBefore(queueOpenTime, parseISO(schedule.StartTime))
 
-	// Update timer every minute
+	
 	useEffect(() => {
-		// Check if user is authenticated
+		
 		const accessToken = Cookies.get('access_token')
 		setIsAuthenticated(!!accessToken)
 
@@ -66,10 +65,10 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 			setTimeUntilOpen(`${diffHours} ч. ${diffMinutes} мин.`)
 		}
 
-		// Update immediately
+		
 		updateTimer()
 
-		// Then update every minute
+	
 		const timerId = setInterval(updateTimer, 60000)
 
 		return () => clearInterval(timerId)
@@ -117,7 +116,7 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 					</div>
 				)}
 
-				{/* For classes without a queue yet, but within the timeframe to show countdown */}
+				
 				{!hasQueue && shouldShowQueueCountdown && (
 					<div className={styles.queueInfo}>
 						<div className={styles.queueCountdown}>
@@ -127,7 +126,7 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 				)}
 			</div>
 
-			{/* Queue Modal */}
+			
 			{showQueueModal && hasQueue && (
 				<QueueModal
 					queueId={queue.ID}

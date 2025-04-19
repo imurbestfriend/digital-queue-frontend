@@ -100,7 +100,6 @@ class WebSocketService {
       handlers.forEach(handler => handler(message));
     }
     
-    // Also trigger handlers for 'all' events
     const allHandlers = this.eventHandlers.get('all');
     if (allHandlers) {
       allHandlers.forEach(handler => handler(message));
