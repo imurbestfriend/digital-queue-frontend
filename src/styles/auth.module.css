@@ -1,0 +1,29 @@
+.toggleContainer{
+    display: flex;
+    font-weight: 300;
+    font-style: normal;
+    
+}
+.toggleButton{
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    min-width: auto !important;
+    box-shadow: none !important;
+    text-transform: uppercase;
+    color: #767676;
+    font-weight: 500;
+    font-style: normal;
+    margin-left: 10px;
+    
+}
+.toggleButton:hover{
+   transition: .3s;
+    color: #00004B;
+}
+.login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

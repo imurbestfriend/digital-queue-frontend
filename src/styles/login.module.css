@@ -1,0 +1,26 @@
+.loginBlock{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+.loginBtnBlock, .loginBtn{
+    border: none;
+    padding: 5px 0;
+    text-transform: uppercase;
+    
+}
+.loginBtn {
+    background-color: #00004B;
+    color: #FFFFFF;
+    
+    
+}
+.loginBtnBlock{
+    cursor: not-allowed;
+    color: grey;
+    
+}
+.logo{
+    text-align: center;
+    margin-bottom: 24px;
+}
