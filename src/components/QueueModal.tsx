@@ -33,8 +33,7 @@ const QueueModal = ({
 
 	
 	useEffect(() => {
-		const token = Cookies.get('')
-		// const token = Cookies.get('access_token')
+		const token = Cookies.get('access_token')
 		setIsAuthenticated(!!token)
 		const userId = token ? getUserIdFromToken(token) : null
 
