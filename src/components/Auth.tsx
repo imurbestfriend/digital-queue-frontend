@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Login from "./Login";
@@ -6,8 +6,6 @@ import Register from "./Register";
 import styles from "../styles/auth.module.css";
 import Cookies from "js-cookie"
 import { Link } from "react-router-dom";
-import ResetPassword from "./ResetPassword";
-import ForgotPassword from "./ForgotPassword";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
