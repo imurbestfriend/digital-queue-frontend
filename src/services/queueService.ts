@@ -4,14 +4,14 @@ import { QueueStatus } from '../types/schedule'
 
 const API_URL = import.meta.env.VITE_API_URL
 
-// Helper function to get auth header
+
 const getAuthHeader = () => {
 	const token = Cookies.get('access_token')
 	return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
 export const queueService = {
-	// Get queue status
+	
 	getQueueStatus: async (queueId: number): Promise<QueueStatus> => {
 		try {
 			const response = await axios.get<QueueStatus>(

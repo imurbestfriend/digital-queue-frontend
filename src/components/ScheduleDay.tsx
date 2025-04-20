@@ -10,21 +10,26 @@ interface ScheduleDayProps {
 }
 
 const ScheduleDay = ({ date, scheduleItems }: ScheduleDayProps) => {
-	// формат даты "Понедельник 21 апреля"
+	
 	const formattedDate = format(parseISO(date), 'EEEE, d MMMM', { locale: ru })
 
 	return (
 		<div className={styles.dayContainer}>
-			<h2 className={styles.dayTitle}>
-				{formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)}
-			</h2>
+  <h2 className={styles.dayTitle}>
+    <span className={styles.dayName}>
+      {formattedDate.split(',')[0]} 
+    </span>
+    <span className={styles.dayDate}>
+      {formattedDate.split(',')[1]} 
+    </span>
+  </h2>
 
-			<div className={styles.classesList}>
-				{scheduleItems.map(item => (
-					<ScheduleClass key={item.schedule.ID} item={item} />
-				))}
-			</div>
-		</div>
+  <div className={styles.classesList}>
+    {scheduleItems.map(item => (
+      <ScheduleClass key={item.schedule.ID} item={item} />
+    ))}
+  </div>
+</div>
 	)
 }
 

@@ -1,5 +1,5 @@
 .scheduleContainer {
-  max-width: 800px;
+  max-width: 790px;
   margin: 0 auto;
   padding: 20px;
   font-family: 'Roboto', sans-serif;
@@ -25,57 +25,69 @@
 }
 
 .dayTitle {
-  background-color: #f5f5f5;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  background-color: #E4E4E4;
   padding: 15px;
   margin: 0;
-  font-size: 1.2rem;
-  border-bottom: 1px solid #e0e0e0;
-  background-color: #ff9800;
+  font-size: 16px;
+  border-bottom: 1px solid #767676;
+  border-radius: 4px;
+  font-weight: 400;
+  color: #767676;
 }
-
+.dayName::first-letter {
+  text-transform: uppercase;
+}
 .classesList {
   padding: 0;
 }
-
+.classInfo{
+  display: flex;
+}
 .classCard {
   padding: 15px;
   border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.2s;
 }
 
-.classCard:last-child {
-  border-bottom: none;
-}
-
-.classCard:hover {
-  background-color: #f9f9f9;
-}
-
 .classHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
 }
+
+.classCard:last-child {
+  border-bottom: none;
+}
+
+/* .classCard:hover {
+  background-color: #f9f9f9;
+} */
+
+
 
 .className {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .classTime {
   font-weight: 500;
-  color: #555;
+  color: #000000;
+  font-size: 16px;
+  margin-right: 10px;
 }
 
-.classDetails {
-  margin-top: 10px;
+/* .classDetails {
+ 
 }
 
 .queueInfo {
-  margin-top: 10px;
-}
+  
+} */
 
 .joinQueueButton {
   background-color: #4caf50;
@@ -93,7 +105,7 @@
 }
 
 .queueCountdown {
-  color: #ff9800;
+  color: #767676;
   font-weight: 500;
 }
 
@@ -123,16 +135,40 @@
   color: #666;
 }
 
-/* Add these to your existing CSS */
+.viewQueueButton {
+  background-color: #00004B;
+  color: #F6F6F6;
+  max-width: 87px;
+  border-radius: 16px;
+  padding: 6px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: scale(1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.viewQueueButton:hover {
+  background-color: #1a1a6e;
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.viewQueueButton:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
 .authRequired {
-  color: #ff9800;
+  color: #767676;
   font-weight: 500;
   font-style: italic;
   margin-top: 8px;
 }
 
 .queueCountdown {
-  color: #ff9800;
+  color: #767676;
   font-weight: 500;
   margin-top: 8px;
 }

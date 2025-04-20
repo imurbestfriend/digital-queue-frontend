@@ -13,38 +13,25 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 	const { schedule, queue } = item
 	const [timeUntilOpen, setTimeUntilOpen] = useState<string>('')
 	const [, setIsAuthenticated] = useState<boolean>(false)
-	// const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 	const [showQueueModal, setShowQueueModal] = useState<boolean>(false)
 	const [joinSuccess, setJoinSuccess] = useState<boolean>(false)
 
-	// формат времени "13:30 - 15:05"
 	const timeRange = `${format(
 		parseISO(schedule.StartTime),
 		'HH:mm'
 	)} - ${format(parseISO(schedule.EndTime), 'HH:mm')}`
 
-	
 	const hasQueue = queue !== undefined
-
-	// 56 часов до начала пары
 	const queueOpenTime = hasQueue
 		? parseISO(queue.OpensAt)
 		: addHours(parseISO(schedule.StartTime), -56)
 
 	const now = new Date()
 	const isQueueOpen = hasQueue && queue.IsActive
-	const isQueueNotYetOpen =
-		hasQueue && !queue.IsActive && isBefore(now, queueOpenTime)
+	const isQueueNotYetOpen = hasQueue && !queue.IsActive && isBefore(now, queueOpenTime)
+	const shouldShowQueueCountdown = !hasQueue && isBefore(now, queueOpenTime)
 
-	
-	const shouldShowQueueCountdown =
-		!hasQueue &&
-		isBefore(now, parseISO(schedule.StartTime)) &&
-		isBefore(queueOpenTime, parseISO(schedule.StartTime))
-
-	
 	useEffect(() => {
-		
 		const accessToken = Cookies.get('access_token')
 		setIsAuthenticated(!!accessToken)
 
@@ -65,10 +52,7 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 			setTimeUntilOpen(`${diffHours} ч. ${diffMinutes} мин.`)
 		}
 
-		
 		updateTimer()
-
-	
 		const timerId = setInterval(updateTimer, 60000)
 
 		return () => clearInterval(timerId)
@@ -77,56 +61,51 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 	return (
 		<div className={styles.classCard}>
 			<div className={styles.classHeader}>
-				<h3 className={styles.className}>{schedule.Name}</h3>
-				<span className={styles.classTime}>{timeRange}</span>
-			</div>
-
-			<div className={styles.classDetails}>
-				{hasQueue && (
-					<div className={styles.queueInfo}>
-						<div className={styles.queueActions}>
-							{isQueueOpen && (
-								<>
-									<div className={styles.queueStatus}>Очередь открыта</div>
-									<button
-										className={styles.viewQueueButton}
-										onClick={() => setShowQueueModal(true)}
-									>
-										Просмотр очереди
-									</button>
-								</>
-							)}
-						</div>
-
-						{isQueueNotYetOpen && (
-							<div className={styles.queueCountdown}>
-								Очередь откроется через {timeUntilOpen}
-							</div>
-						)}
-
-						{!isQueueOpen && !isQueueNotYetOpen && (
-							<div className={styles.queueClosed}>Очередь закрыта</div>
-						)}
-
-						{joinSuccess && (
-							<div className={styles.success}>
-								Вы успешно присоединились к очереди
-							</div>
-						)}
-					</div>
-				)}
-
+				<div className={styles.classInfo}>
+					<span className={styles.classTime}>{timeRange}</span>
+					<p className={styles.className}>{schedule.Name}</p>
+				</div>
 				
-				{!hasQueue && shouldShowQueueCountdown && (
+
+				<div className={styles.classDetails}>
+				{hasQueue ? (
 					<div className={styles.queueInfo}>
-						<div className={styles.queueCountdown}>
-							Очередь откроется через {timeUntilOpen}
+						{isQueueOpen ? (
+							<>
+								{/* <div className={styles.queueStatus}>Очередь открыта</div> */}
+								<button
+									className={styles.viewQueueButton}
+									onClick={() => setShowQueueModal(true)}
+								>
+									Очередь
+								</button>
+							</>
+						) : (
+							<div className={styles.queueCountdown}>
+								Откроется через {timeUntilOpen}
+							</div>
+						)}
+					</div>
+				) : (
+					shouldShowQueueCountdown && (
+						<div className={styles.queueInfo}>
+							<div className={styles.queueCountdown}>
+								Окроется через {timeUntilOpen}
+							</div>
 						</div>
+					)
+				)}
+
+				{joinSuccess && (
+					<div className={styles.success}>
+						Вы успешно присоединились к очереди
 					</div>
 				)}
+			</div>
 			</div>
 
 			
+
 			{showQueueModal && hasQueue && (
 				<QueueModal
 					queueId={queue.ID}
