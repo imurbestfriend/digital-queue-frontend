@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
+import { Notyf } from 'notyf'
+import 'notyf/notyf.min.css'
+import TokenRefresherWithAxios from './TokenRefresherWithAxios'
 
 interface Group {
 	id: string
@@ -28,6 +31,7 @@ export default function GroupList() {
 	const [error, setError] = useState<string | null>(null)
 	const [search, setSearch] = useState<string>('')
 	const navigate = useNavigate()
+	const notyf = new Notyf()
 
 	const getGroups = async () => {
 		try {
@@ -35,9 +39,11 @@ export default function GroupList() {
 			const response = await axios.get<GroupResponse>(`${API_URL}/groups`)
 			setGroups(response.data.items)
 			setError(null)
+			notyf.success('Список групп успешно загружен!')
 		} catch (err) {
 			console.error('Error fetching groups:', err)
-			setError('Failed to fetch groups')
+			setError('Не удалось загрузить список групп.')
+			notyf.error('Ошибка при загрузке списка групп.')
 		} finally {
 			setLoading(false)
 		}
@@ -46,6 +52,13 @@ export default function GroupList() {
 	useEffect(() => {
 		getGroups()
 	}, [])
+
+	const handleClick = (id: string, number: string) => {
+		Cookies.set('group_id', id)
+		Cookies.set('group_name', number)
+		notyf.success(`Вы выбрали группу: ${number}`)
+		navigate(`/dashboard/schedule`)
+	}
 
 	const filteredGroups = groups
 		.filter(
@@ -86,17 +99,12 @@ export default function GroupList() {
 		return acc
 	}, {} as Record<string, Group[]>)
 
-	const handleClick = (id: string, number: string) => {
-		Cookies.set('group_id', id)
-		Cookies.set('group_name', number)
-		navigate(`/dashboard/schedule`)
-	}
-
 	// Определяем порядок отображения курсов
 	const courseOrder = ['1', '2', '3', '4', '5', '6', '1м', '2м']
 
 	return (
 		<div className={styles.container}>
+			<TokenRefresherWithAxios />
 			<div className={styles.loginBtn}>
 				<Link to='/Auth' className={styles.dashboardLink}>
 					Выйти

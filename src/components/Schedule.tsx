@@ -5,23 +5,27 @@ import { ScheduleResponse, ScheduleByDay } from '../types/schedule'
 import ScheduleDay from './ScheduleDay'
 import styles from '../styles/schedule.module.css'
 import Cookies from 'js-cookie'
-import { useNavigate } from 'react-router-dom';
-import Header from "./HeaderComp";
+import { useNavigate } from 'react-router-dom'
+import Header from './HeaderComp'
+import { Notyf } from 'notyf'
+import 'notyf/notyf.min.css'
+import TokenRefresherWithAxios from './TokenRefresherWithAxios'
 
 const API_URL = import.meta.env.VITE_API_URL
+const notyf = new Notyf()
 
 const Schedule = () => {
 	const groupId = Cookies.get('group_id') || ''
 	const [schedule, setSchedule] = useState<ScheduleByDay>({})
 	const [loading, setLoading] = useState<boolean>(true)
 	const [error, setError] = useState<string | null>(null)
-	const navigate = useNavigate();
-
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const fetchSchedule = async () => {
 			if (!groupId) {
 				setError('ID группы не найден. Пожалуйста, выберите группу.')
+				notyf.error('ID группы не найден. Пожалуйста, выберите группу.')
 				setLoading(false)
 				return
 			}
@@ -31,10 +35,8 @@ const Schedule = () => {
 					`${API_URL}/schedule?group_id=${groupId}`
 				)
 
-				
 				const scheduleByDay: ScheduleByDay = {}
 
-				
 				const scheduleItems = Array.isArray(response.data)
 					? response.data
 					: Object.values(response.data)
@@ -52,7 +54,6 @@ const Schedule = () => {
 					scheduleByDay[startDate].push(item)
 				})
 
-				
 				Object.keys(scheduleByDay).forEach(day => {
 					scheduleByDay[day].sort(
 						(a, b) =>
@@ -62,12 +63,16 @@ const Schedule = () => {
 				})
 
 				setSchedule(scheduleByDay)
-				setLoading(false)
+				notyf.success('Расписание успешно загружено!')
 			} catch (err) {
 				console.error('Error fetching schedule:', err)
 				setError(
 					'Не удалось загрузить расписание. Пожалуйста, попробуйте позже.'
 				)
+				notyf.error(
+					'Не удалось загрузить расписание. Пожалуйста, попробуйте позже.'
+				)
+			} finally {
 				setLoading(false)
 			}
 		}
@@ -79,6 +84,7 @@ const Schedule = () => {
 		Cookies.remove('group_id')
 		Cookies.remove('group_name')
 		navigate('/dashboard/grouplist')
+		notyf.success('Вы вернулись к выбору группы.')
 	}
 
 	if (loading) {
@@ -86,30 +92,27 @@ const Schedule = () => {
 	}
 
 	if (error) {
-		return(
-			// <div className={styles.errorBlock}>
+		return (
 			<div>
 				<div className={styles.error}>{error}</div>
-				<button className={styles.errorBtn} onClick={handleBack}>Назад</button>
+				<button className={styles.errorBtn} onClick={handleBack}>
+					Назад
+				</button>
 			</div>
-		) 
-		
+		)
 	}
 
 	if (Object.keys(schedule).length === 0) {
+		notyf.error('Расписание не найдено.')
 		return <div className={styles.empty}>Расписание не найдено</div>
 	}
 
-	
-	
 	return (
-		
 		<div className={styles.scheduleContainer}>
 			<Header />
-			<h1 className={styles.title}>Расписание группы </h1>
-			{/* <button onClick={handleBack}>Назад</button> */}
+			<h1 className={styles.title}>Расписание группы</h1>
 			{Object.keys(schedule)
-				.sort() 
+				.sort()
 				.map(day => (
 					<ScheduleDay key={day} date={day} scheduleItems={schedule[day]} />
 				))}
