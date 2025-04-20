@@ -7,7 +7,6 @@ import QueueModal from './QueueModal'
 import Header from './HeaderComp'
 import { ru } from 'date-fns/locale'
 
-
 export default function Dashboard() {
 	const [queues, setQueues] = useState<any[]>([])
 	const [loading, setLoading] = useState<boolean>(true)
@@ -45,9 +44,8 @@ export default function Dashboard() {
 	}
 
 	return (
-        
 		<div className={styles.scheduleContainer}>
-            <Header />
+			<Header />
 			<TokenRefresherWithAxios />
 			<h1 className={styles.title}>Мои очереди</h1>
 
@@ -63,7 +61,12 @@ export default function Dashboard() {
 					.map(date => (
 						<div key={date} className={styles.dayContainer}>
 							<div className={styles.dayTitle}>
-								<span>{format(parseISO(date), 'EEEE, d MMMM', { locale: ru })}</span>
+								<span className={styles.dayOfWeek}>
+									{format(parseISO(date), 'EEEE', { locale: ru })}
+								</span>
+								<span className={styles.date}>
+									{format(parseISO(date), 'd MMMM', { locale: ru })}
+								</span>
 							</div>
 							<div className={styles.classesList}>
 								{groupedQueues[date].map((queue: any) => (
