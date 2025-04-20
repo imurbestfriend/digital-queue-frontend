@@ -6,6 +6,8 @@ import ScheduleDay from './ScheduleDay'
 import styles from '../styles/schedule.module.css'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom';
+import Header from "./HeaderComp";
+
 const API_URL = import.meta.env.VITE_API_URL
 
 const Schedule = () => {
@@ -103,8 +105,9 @@ const Schedule = () => {
 	return (
 		
 		<div className={styles.scheduleContainer}>
+			<Header />
 			<h1 className={styles.title}>Расписание группы </h1>
-			<button onClick={handleBack}>Назад</button>
+			{/* <button onClick={handleBack}>Назад</button> */}
 			{Object.keys(schedule)
 				.sort() 
 				.map(day => (

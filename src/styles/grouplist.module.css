@@ -20,12 +20,25 @@
 }
 
 .dashboardLink {
-    display: block;
-    text-align: right;
-    margin-bottom: 30px;
-    color: #00004B;
+    color: white;
+    background-color: #00004B;
     text-decoration: none;
     font-weight: 500;
+    border-radius: 16px;
+    padding: 8px 16px; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.dashboardLink svg {
+    position: relative;
+    top: 0px; 
+    margin-left: 4px; 
+}
+.loginBtn{
+    display: flex;
+    justify-content: flex-end;
 }
 
 .dashboardLink:hover {

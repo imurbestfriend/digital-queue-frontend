@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Login from "./Login";
 import Register from "./Register";
 import styles from "../styles/auth.module.css";
 import Cookies from "js-cookie"
+import { Link } from "react-router-dom";
+
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -31,7 +33,7 @@ export default function Auth() {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
     const navigate = useNavigate();
-
+    
     const handleLogin = async (email: string, password: string) => {
         setIsLoading(true);
         setError(null);
@@ -148,7 +150,13 @@ export default function Auth() {
     };
 
     return (
+        <div className={styles.mainContainer}>
+            <Link className={styles.backLink} to="/"><svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8.6258 0.264508C9.03201 0.638696 9.05796 1.27133 8.68377 1.67753L3.78081 7.00001H18.5C19.0523 7.00001 19.5 7.44772 19.5 8.00001C19.5 8.55229 19.0523 9.00001 18.5 9.00001H3.78081L8.68377 14.3225C9.05796 14.7287 9.03201 15.3613 8.6258 15.7355C8.2196 16.1097 7.58697 16.0837 7.21278 15.6775L0.764502 8.67753C0.411833 8.29469 0.411833 7.70532 0.764502 7.32248L7.21278 0.322478C7.58697 -0.0837261 8.2196 -0.10968 8.6258 0.264508Z" fill="#00004B"/>
+</svg>
+Назад</Link>
         <div className={styles.login}>
+            
             {isLoginMode ? (
                 <Login 
                     onSubmit={handleLogin} 
@@ -175,6 +183,7 @@ export default function Auth() {
             {success && <div className={styles.success}>
                 {isLoginMode ? "Успешный логин!" : "Успешная регистрация!"}
             </div>}
+        </div>
         </div>
     );
 }

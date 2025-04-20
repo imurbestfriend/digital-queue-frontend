@@ -1,9 +1,7 @@
-import { useState } from "react";
+import { useState, useRef, KeyboardEvent } from "react";
 import styles from "../styles/login.module.css";
-
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
 
 interface LoginProps {
     onSubmit: (email: string, password: string) => void;
@@ -13,14 +11,31 @@ interface LoginProps {
 export default function Login({ onSubmit, isLoading }: LoginProps) {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const passwordInputRef = useRef<HTMLInputElement>(null);
+    const submitButtonRef = useRef<HTMLButtonElement>(null);
 
     const handleSubmit = () => {
         onSubmit(email, password);
     };
 
+    const handleEmailKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            passwordInputRef.current?.focus();
+        }
+    };
+
+    const handlePasswordKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            submitButtonRef.current?.click();
+        }
+    };
+
     return (
         <div className={styles.loginBlock}>
-            <div className={styles.logo}><svg width="144" height="144" viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className={styles.logo}>
+                <svg width="144" height="144" viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_4_420)">
                     <mask id="mask0_4_420" className="mask-type:luminance" maskUnits="userSpaceOnUse" x="-156" y="-103" width="1330" height="1879">
                     <path d="M-155.163 1775.44H1173.21V-102.14H-155.163V1775.44Z" fill="white"/>
@@ -41,83 +56,91 @@ export default function Login({ onSubmit, isLoading }: LoginProps) {
                     <rect width="144" height="144" fill="white"/>
                     </clipPath>
                     </defs>
-                    </svg>
+                </svg>
             </div>
+            
             <Box
                 component="form"
-                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}
+                sx={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center', 
+                    gap: 2 
+                }}
                 noValidate
                 autoComplete="off"
             >
-                <TextField  id="filled-basic"
-                            label="Email"
-                            variant="filled"
-                            className={styles.inputField}
-                            type="text"
-                            value={email}
-                            sx={{
-                                width: '400px',
-                                marginBottom: '10px', 
-                                '& .MuiFilledInput-root': { 
-                                  paddingLeft: '12px', 
-                                  paddingRight: '12px',
-                                },
-                                '& .MuiInputBase-input': { 
-                                  width: '100%', 
-                                
-                                },
-                                '& .MuiFilledInput-underline:before': { 
-                                  borderBottomColor: '#00004B',
-                                },
-                                '& .MuiFilledInput-underline:after': { 
-                                  borderBottomColor: '#00004B', 
-                                },
-                                '& .Mui-focused': { 
-                                  color: '#00004B',
-                                }
-                              }}
-                            // placeholder="Email"
-                            
-                            onChange={(e) => setEmail(e.target.value)} />
-                <TextField  id="filled-basic"
-                            label="Password"
-                            variant="filled"
-                            className={styles.inputField}
-                            type="password"
-                            value={password}
-                            sx={{
-                                width: '400px',
-                                marginBottom: '20px', 
-                                '& .MuiFilledInput-root': { 
-                                  paddingLeft: '12px', 
-                                  paddingRight: '12px',
-                                },
-                                '& .MuiInputBase-input': { 
-                                  width: '100%', 
-                                
-                                },
-                                '& .MuiFilledInput-underline:before': { 
-                                  borderBottomColor: '#00004B',
-                                },
-                                '& .MuiFilledInput-underline:after': { 
-                                  borderBottomColor: '#00004B', 
-                                },
-                                '& .Mui-focused': { 
-                                  color: '#00004B',
-                                }
-                              }}
-                            // placeholder="Email"
-                            
-                            onChange={(e) => setPassword(e.target.value)} />
+                <TextField
+                    id="email-input"
+                    label="Email"
+                    variant="filled"
+                    className={styles.inputField}
+                    type="email"
+                    value={email}
+                    onKeyDown={handleEmailKeyDown}
+                    sx={{
+                        width: '400px',
+                        marginBottom: '10px',
+                        '& .MuiFilledInput-root': {
+                            paddingLeft: '12px',
+                            paddingRight: '12px',
+                        },
+                        '& .MuiInputBase-input': {
+                            width: '100%',
+                        },
+                        '& .MuiFilledInput-underline:before': {
+                            borderBottomColor: '#00004B',
+                        },
+                        '& .MuiFilledInput-underline:after': {
+                            borderBottomColor: '#00004B',
+                        },
+                        '& .Mui-focused': {
+                            color: '#00004B',
+                        }
+                    }}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
                 
+                <TextField
+                    id="password-input"
+                    label="Password"
+                    variant="filled"
+                    className={styles.inputField}
+                    type="password"
+                    value={password}
+                    inputRef={passwordInputRef}
+                    onKeyDown={handlePasswordKeyDown}
+                    sx={{
+                        width: '400px',
+                        marginBottom: '20px',
+                        '& .MuiFilledInput-root': {
+                            paddingLeft: '12px',
+                            paddingRight: '12px',
+                        },
+                        '& .MuiInputBase-input': {
+                            width: '100%',
+                        },
+                        '& .MuiFilledInput-underline:before': {
+                            borderBottomColor: '#00004B',
+                        },
+                        '& .MuiFilledInput-underline:after': {
+                            borderBottomColor: '#00004B',
+                        },
+                        '& .Mui-focused': {
+                            color: '#00004B',
+                        }
+                    }}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
             </Box>
+            
             <button
                 onClick={handleSubmit}
                 disabled={isLoading}
-                className={styles.loginBtn}
+                className={isLoading ? styles.loginBtnBlock : styles.loginBtn}
+                ref={submitButtonRef}
             >
-                {isLoading ? (<div className={styles.loginBtnBlock}>Войти</div>) 
-                        : ( <div className={styles.loginBtn}>Войти</div>)}
+                {isLoading ? "Вход..." : "Войти"}
             </button>
         </div>
     );

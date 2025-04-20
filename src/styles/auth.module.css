@@ -27,3 +27,49 @@
     justify-content: center;
     align-items: center;
 }
+.backLink {
+    color: #00004B;
+    font-weight: 400;
+    font-style: normal;
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.backLink svg {
+    margin-right: 8px; 
+}
+.mainContainer{
+    max-width: 790px;
+    margin: 0 auto;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.dashboardLink {
+    color: white;
+    background-color: #00004B;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 16px;
+    padding: 8px 16px; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.dashboardLink svg {
+    position: relative;
+    top: 0px; 
+    margin-left: 4px; 
+}
+.dashboardLink:hover {
+    text-decoration: underline;
+}
