@@ -45,7 +45,7 @@
 
 ### Требования
 
-- Node.js v18+
+- Node.js v20+
 - npm или yarn
 - Файл окружения `.env` с переменными  `VITE_WS_URL` и `VITE_API_URL`.
 
