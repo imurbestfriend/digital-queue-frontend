@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const TokenRefresherWithAxios = () => {
 	const refreshToken = async () => {
@@ -14,7 +15,7 @@ const TokenRefresherWithAxios = () => {
 
 		try {
 			const { data } = await axios.post(
-				'https://testhackbackend-production.up.railway.app/auth/refresh',
+				`${API_URL}/auth/refresh`,
 				{ refresh_token: rt },
 				{
 					headers: {
