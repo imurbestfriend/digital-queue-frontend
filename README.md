@@ -1,54 +1,213 @@
-# React + TypeScript + Vite
+# Документация по приложению Digital Queue Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Оглавление
 
-Currently, two official plugins are available:
+- [Документация по приложению Digital Queue Frontend](#документация-по-приложению-digital-queue-frontend)
+  - [Оглавление](#оглавление)
+  - [Обзор](#обзор)
+  - [Быстрый старт](#быстрый-старт)
+    - [Требования](#требования)
+    - [Установка](#установка)
+    - [Запуск](#запуск)
+  - [Конфигурация](#конфигурация)
+  - [Аутентификация](#аутентификация)
+    - [Регистрация](#регистрация)
+    - [Вход](#вход)
+    - [Восстановление пароля](#восстановление-пароля)
+  - [Панель пользователя (Dashboard)](#панель-пользователя-dashboard)
+  - [Модальное окно очереди (QueueModal)](#модальное-окно-очереди-queuemodal)
+    - [Присоединиться/Покинуть очередь](#присоединитьсяпокинуть-очередь)
+  - [Список групп и расписание](#список-групп-и-расписание)
+  - [Сервисы API](#сервисы-api)
+    - [profileService](#profileservice)
+    - [queueService](#queueservice)
+  - [Интеграция WebSocket](#интеграция-websocket)
+  - [Распространённые проблемы и их решение](#распространённые-проблемы-и-их-решение)
+  - [Полезные советы и лучшие практики](#полезные-советы-и-лучшие-практики)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Обзор
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Приложение **Digital Queue Frontend** — это клиентская часть системы управления электронными очередями. Пользователи могут:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Регистрация и аутентификация
+- Просматривать список своих очередей, сгруппированных по дате
+- Присоединяться к активным очередям и покидать их
+- Получать обновления статуса в режиме реального времени через WebSocket
+- Восстанавливать пароль при утере доступа
+
+![Общий вид панели пользователя](assets/screenshots/dashboard_overview.png)
+
+---
+
+## Быстрый старт
+
+### Требования
+
+- Node.js v18+
+- npm или yarn
+- Файл окружения `.env` с переменными  `VITE_WS_URL` и `VITE_API_URL`.
+
+### Установка
+
+1. Склонируйте репозиторий:
+   ```bash
+   git clone https://github.com/imurbestfriend/digital-queue-frontend.git
+   cd digital-queue-frontend
+   ```
+2. Установите зависимости:
+   ```bash
+   npm ci
+   ```
+
+### Запуск
+
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Приложение будет доступно по адресу `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## Конфигурация
+
+Создайте файл `.env` в корне проекта с содержимым:
+
+```env
+VITE_API_URL=https://api.example.com
+VITE_WS_URL=wss://api.example.com
 ```
+
+Убедитесь, что URL API соответствует адресу вашего бэкенда.
+
+---
+
+## Аутентификация
+
+### Регистрация
+
+1. Перейдите на страницу **Регистрация**.
+2. Заполните форму: имя, email, пароль.
+3. Нажмите **Зарегистрироваться**.
+
+![Форма регистрации](assets/screenshots/register_form.png)
+
+### Вход
+
+1. Перейдите на страницу **Вход**.
+2. Введите email и пароль.
+3. Нажмите **Войти**.
+
+### Восстановление пароля
+
+1. На странице входа нажмите **Забыли пароль?**.
+2. Введите email и получите ссылку для сброса.
+3. Перейдите по ссылке, введите новый пароль.
+
+![Восстановление пароля](assets/screenshots/forgot_password.png)
+
+---
+
+## Панель пользователя (Dashboard)
+
+После входа пользователь попадает на **Dashboard**, где отображаются его очереди, сгруппированные по датам.
+
+- **Загрузка очередей**: отображается индикатор загрузки.
+- **Пустой список**: сообщение «Очереди не найдены».
+- **Список дат**: день недели и число.
+- **Карточки очередей**: время начала, название, статус, позиция.
+
+![Карточки очередей](assets/screenshots/queue_cards.png)
+
+Нажатие на активную очередь откроет модальное окно с подробной информацией.
+
+---
+
+## Модальное окно очереди (QueueModal)
+
+Отображает:
+
+- Название расписания (scheduleName)
+- Статус очереди и текущую позицию
+- Кнопки **Присоединиться**/**Покинуть**
+
+![Модальное окно очереди](assets/screenshots/queue_modal.png)
+
+### Присоединиться/Покинуть очередь
+
+```tsx
+// Props:
+interface QueueModalProps {
+  queueId: number;
+  scheduleName: string;
+  onClose: () => void;
+}
+```
+
+- Использует `queueService.joinQueue(queueId)` и `queueService.leaveQueue(queueId)`.
+- При успешном действии обновляет статус и закрывает окно.
+
+---
+
+## Список групп и расписание
+
+1. **GroupList** — выбор группы из списка.
+2. **Schedule** — отображение по дням и классам с помощью компонентов `ScheduleClass` и `ScheduleDay`.
+
+![Список групп](assets/screenshots/group_list.png)
+
+---
+
+## Сервисы API
+
+### profileService
+
+Методы:
+
+- `getUserProfile(): Promise<UserProfile>` — получение данных профиля.
+- `getUserQueues(): Promise<Queue[]>` — получение очередей пользователя.
+
+### queueService
+
+Методы:
+
+- `getQueueStatus(queueId: number): Promise<QueueStatus>` — статус очереди.
+- `joinQueue(queueId: number): Promise<{success: boolean; message?: string}>` — присоединение.
+- `leaveQueue(queueId: number): Promise<{success: boolean; message?: string}>` — выход.
+
+---
+
+## Интеграция WebSocket
+
+Компонент `TokenRefresherWithAxios` поддерживает автоматическое обновление токена через Axios interceptor.
+
+Сервис `websocketService.ts` устанавливает соединение для получения обновлений статуса очередей в реальном времени.
+
+---
+
+## Распространённые проблемы и их решение
+
+1. **Ошибка 401 Unauthorized**
+   - Проверьте, что в куках `access_token` установлен корректно.
+   - Выполните повторный вход.
+2. **CORS ошибка**
+   - Добавьте заголовки `Access-Control-Allow-Origin` на стороне API.
+3. **Очередь не найдена (404)**
+   - Проверьте, что `queueId` корректен и очереди существуют.
+4. **Время не отображается**
+   - Убедитесь, что поле `start_time` приходит в формате ISO.
+
+---
+
+## Полезные советы и лучшие практики
+
+- Используйте локаль `ru` для форматирования дат через `date-fns`.
+- Управляйте состоянием модального окна через React state.
+- Обновляйте токены через интерцепторы Axios для стабильности сессий.
+- Разбейте стили на CSS-модули для изоляции классов.
+
+---
+
+*Документация подготовлена автоматически на основе структуры проекта и исходного кода.*
