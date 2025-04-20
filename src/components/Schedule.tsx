@@ -93,12 +93,12 @@ const Schedule = () => {
 
 	if (error) {
 		return (
-			<div>
-				<div className={styles.error}>{error}</div>
-				<button className={styles.errorBtn} onClick={handleBack}>
-					Назад
-				</button>
-			</div>
+			<div className={styles.errorContainer}>
+  <div className={styles.error}>{error}</div>
+  <button className={styles.errorBtn} onClick={handleBack}>
+    Назад
+  </button>
+</div>
 		)
 	}
 

@@ -38,7 +38,9 @@
     align-items: center; 
     gap: 8px; 
 }
-
+.backLink:hover {
+    cursor: pointer;
+}
 .backLink svg {
     margin-right: 8px; 
 }
@@ -52,6 +54,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 .dashboardLink {
     color: white;
