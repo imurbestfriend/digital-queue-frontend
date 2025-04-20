@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import axios from 'axios'
 import { TextField, Button, Box, Typography } from '@mui/material'
 import { Notyf } from 'notyf'
@@ -12,6 +12,7 @@ export default function ForgotPassword() {
 	const [email, setEmail] = useState<string>('')
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [success, setSuccess] = useState<boolean>(false)
+	const buttonRef = useRef<HTMLButtonElement>(null)
 
 	const handleForgotPassword = async () => {
 		setIsLoading(true)
@@ -37,6 +38,12 @@ export default function ForgotPassword() {
 		}
 	}
 
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		if (e.key === 'Enter' && !isLoading) {
+			buttonRef.current?.click()
+		}
+	}
+
 	return (
 		<Box className={styles.login}>
 			<Typography variant='h5' sx={{ color: '#00004B', mb: 3 }}>
@@ -52,6 +59,7 @@ export default function ForgotPassword() {
 						type='email'
 						value={email}
 						onChange={e => setEmail(e.target.value)}
+						onKeyDown={handleKeyDown}
 						sx={{
 							mb: 3,
 							'& .MuiFilledInput-root': {
@@ -71,6 +79,7 @@ export default function ForgotPassword() {
 					/>
 
 					<Button
+						ref={buttonRef}
 						fullWidth
 						variant='contained'
 						onClick={handleForgotPassword}
