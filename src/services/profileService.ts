@@ -23,4 +23,23 @@ export const profileService = {
       throw error;
     }
   },
+  getUserProfile: async () => {
+    try {
+      const token = Cookies.get('access_token');
+      if (!token) {
+        throw new Error('Пользователь не авторизован');
+      }
+
+      const response = await axios.get(`${API_URL}/profile/get`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка при получении профиля пользователя:', error);
+      throw error;
+    }
+  },
 };
