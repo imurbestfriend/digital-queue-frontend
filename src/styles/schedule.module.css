@@ -105,6 +105,7 @@
   border-radius: 4px;
   font-weight: 400;
   color: #767676;
+  text-transform: uppercase;
 }
 .dayName::first-letter {
   text-transform: uppercase;
