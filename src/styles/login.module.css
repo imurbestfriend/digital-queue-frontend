@@ -12,15 +12,60 @@
 .loginBtn {
     background-color: #00004B;
     color: #FFFFFF;
+    padding: 18px;
     
     
 }
 .loginBtnBlock{
     cursor: not-allowed;
     color: grey;
+    padding: 18px;
     
 }
 .logo{
     text-align: center;
     margin-bottom: 24px;
+}
+
+
+
+
+
+
+
+
+/* Можно добавить эти стили в тот же login.module.css файл */
+
+.inputField {
+    width: 400px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid #00004B;
+    background-color: transparent;
+    outline: none;
+    font-size: 16px;
+    color: #00004B;
+}
+
+.inputField:focus {
+    border-bottom: 2px solid #00004B;
+}
+
+.submitButton {
+    width: 400px;
+    border: none;
+    padding: 12px 0;
+    text-transform: uppercase;
+    background-color: #00004B;
+    color: #FFFFFF;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submitButton:disabled {
+    background-color: #f5f5f5;
+    color: grey;
+    cursor: not-allowed;
 }

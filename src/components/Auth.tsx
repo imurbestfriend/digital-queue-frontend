@@ -6,8 +6,8 @@ import Register from "./Register";
 import styles from "../styles/auth.module.css";
 import Cookies from "js-cookie"
 import { Link } from "react-router-dom";
-
-
+import ResetPassword from "./ResetPassword";
+import ForgotPassword from "./ForgotPassword";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -168,7 +168,12 @@ export default function Auth() {
                     isLoading={isLoading} 
                 />
             )}
-            
+            {isLoginMode ? (
+                <Link to={'/auth/forgot-password'} className={styles.ForgotPassword}>Забыли пароль?</Link>
+            ) : (
+                null
+            )}
+            {/* <Link to={'/auth/forgot-password'} className={styles.ForgotPassword}>Забыли пароль?</Link> */}
             <div className={styles.toggleContainer}>
             {isLoginMode ? "Еще нет профиля?" : "Уже есть профиль?"}
                 <button
@@ -178,7 +183,7 @@ export default function Auth() {
                    {isLoginMode ? "Зарегистрироваться" : "Войти"}
                 </button>
             </div>
-            
+           
             {error && <div className={styles.error}>{error}</div>}
             {success && <div className={styles.success}>
                 {isLoginMode ? "Успешный логин!" : "Успешная регистрация!"}

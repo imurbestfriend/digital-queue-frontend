@@ -73,3 +73,10 @@
 .dashboardLink:hover {
     text-decoration: underline;
 }
+
+.ForgotPassword{
+    margin-bottom: 10px;
+    text-decoration: none;
+    font-weight: 400;
+    color: #00004B;
+}
