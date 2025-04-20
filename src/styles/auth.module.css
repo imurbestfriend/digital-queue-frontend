@@ -48,7 +48,10 @@
     max-width: 790px;
     margin: 0 auto;
 }
-
+.header2{
+    display: flex;
+    justify-content: space-between;
+}
 .header{
     display: flex;
     justify-content: space-between;

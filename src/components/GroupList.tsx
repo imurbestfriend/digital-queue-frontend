@@ -9,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
 import TokenRefresherWithAxios from './TokenRefresherWithAxios'
-import Header from './HeaderComp'
+import HeaderTwo from './HeaderTwo'
 
 interface Group {
 	id: string
@@ -104,7 +104,7 @@ export default function GroupList() {
 
 	return (
 		<div className={styles.container}>
-			<Header/>
+			<HeaderTwo/>
 			<TokenRefresherWithAxios />
 			<h1 className={styles.header}>Добро пожаловать!</h1>
 			<p className={styles.subheader}>
