@@ -109,6 +109,7 @@ const Schedule = () => {
 
 	return (
 		<div className={styles.scheduleContainer}>
+			<TokenRefresherWithAxios/>
 			<Header />
 			<h1 className={styles.title}>Расписание группы</h1>
 			{Object.keys(schedule)

@@ -14,7 +14,7 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 	const [timeUntilOpen, setTimeUntilOpen] = useState<string>('')
 	const [, setIsAuthenticated] = useState<boolean>(false)
 	const [showQueueModal, setShowQueueModal] = useState<boolean>(false)
-	const [joinSuccess, setJoinSuccess] = useState<boolean>(false)
+	// const [joinSuccess, setJoinSuccess] = useState<boolean>(false)
 
 	const timeRange = `${format(
 		parseISO(schedule.StartTime),
@@ -96,11 +96,6 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 					)
 				)}
 
-				{joinSuccess && (
-					<div className={styles.success}>
-						Вы успешно присоединились к очереди
-					</div>
-				)}
 			</div>
 			</div>
 
@@ -111,7 +106,7 @@ const ScheduleClass = ({ item }: ScheduleClassProps) => {
 					queueId={queue.ID}
 					scheduleName={schedule.Name}
 					onClose={() => setShowQueueModal(false)}
-					onJoinSuccess={() => setJoinSuccess(true)}
+					// onJoinSuccess={() => setJoinSuccess(true)}
 				/>
 			)}
 		</div>

@@ -23,21 +23,22 @@ const TokenRefresherWithAxios = () => {
 					},
 				}
 			)
-			console.log('Ответ от сервера:', response.data.access_token)
 
-			// Проверяем, что токены получены
-			if (response.data && response.data.access && response.data.refresh) {
+			if (
+				response.data &&
+				response.data.access_token &&
+				response.data.refresh_token
+			) {
 				// Устанавливаем новые токены в куки
-				Cookies.set('access_token', response.data.access, {
+				Cookies.set('access_token', response.data.access_token, {
 					sameSite: 'strict',
 					secure: true,
 				})
-				Cookies.set('refresh_token', response.data.refresh, {
+				Cookies.set('refresh_token', response.data.refresh_token, {
 					sameSite: 'strict',
 					secure: true,
 				})
 
-				console.log('Токены успешно обновлены')
 			} else {
 				console.error('Ответ от сервера не содержит токенов')
 			}
