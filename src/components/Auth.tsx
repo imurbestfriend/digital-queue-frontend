@@ -173,7 +173,7 @@ export default function Auth() {
             ) : (
                 null
             )}
-            {/* <Link to={'/auth/forgot-password'} className={styles.ForgotPassword}>Забыли пароль?</Link> */}
+            
             <div className={styles.toggleContainer}>
             {isLoginMode ? "Еще нет профиля?" : "Уже есть профиль?"}
                 <button

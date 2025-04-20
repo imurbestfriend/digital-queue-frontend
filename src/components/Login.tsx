@@ -11,6 +11,7 @@ interface LoginProps {
 export default function Login({ onSubmit, isLoading }: LoginProps) {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const submitButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -28,14 +29,14 @@ export default function Login({ onSubmit, isLoading }: LoginProps) {
     const handlePasswordKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            submitButtonRef.current?.click();
+            handleSubmit();
         }
     };
 
     return (
         <div className={styles.loginBlock}>
             <div className={styles.logo}>
-                <svg width="144" height="144" viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="144" height="144" viewBox="0 0 144 144" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_4_420)">
                     <mask id="mask0_4_420" className="mask-type:luminance" maskUnits="userSpaceOnUse" x="-156" y="-103" width="1330" height="1879">
                     <path d="M-155.163 1775.44H1173.21V-102.14H-155.163V1775.44Z" fill="white"/>
@@ -77,6 +78,7 @@ export default function Login({ onSubmit, isLoading }: LoginProps) {
                     className={styles.inputField}
                     type="email"
                     value={email}
+                    inputRef={emailInputRef}
                     onKeyDown={handleEmailKeyDown}
                     sx={{
                         width: '400px',
@@ -140,7 +142,7 @@ export default function Login({ onSubmit, isLoading }: LoginProps) {
                 className={isLoading ? styles.loginBtnBlock : styles.loginBtn}
                 ref={submitButtonRef}
             >
-                {isLoading ? "Вход..." : "Войти"}
+                Войти
             </button>
         </div>
     );
